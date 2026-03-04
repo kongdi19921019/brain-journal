@@ -3,244 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>脑科学阅读笔记 · Sylvia</title>
+  <title>脑科学笔记</title>
   <style>
-    :root {
-      --bg: #f7f5f2;
-      --card: #ffffff;
-      --accent: #7c6fcd;
-      --accent-light: #ede9fb;
-      --text: #1e1e1e;
-      --muted: #999;
-      --border: #e8e4de;
-      --tag-bg: #fef3e2;
-      --tag-color: #c47c1e;
-    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Georgia', 'Noto Serif SC', serif;
-      line-height: 1.85;
-      font-size: 16px;
+      background: #f7f5f2;
+      font-family: -apple-system, 'PingFang SC', sans-serif;
+      color: #1e1e1e;
+      padding: 1.5rem 1.25rem 3rem;
+      max-width: 480px;
+      margin: 0 auto;
     }
-
-    /* ── Header ── */
-    header {
-      background: linear-gradient(135deg, #5b4fc7 0%, #9b89e8 100%);
-      color: white;
-      padding: 3.5rem 2rem 3rem;
-      text-align: center;
+    h1 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #888;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
     }
-    header .emoji { font-size: 2.5rem; display: block; margin-bottom: 0.5rem; }
-    header h1 { font-size: 1.9rem; font-weight: normal; letter-spacing: 0.06em; }
-    header p { margin-top: 0.6rem; opacity: 0.8; font-size: 0.95rem; }
-
-    /* ── Nav / Stats bar ── */
-    .stats {
-      background: white;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      justify-content: center;
-      gap: 3rem;
-      padding: 1rem 2rem;
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-    .stats span strong { color: var(--accent); font-size: 1.1rem; }
-
-    /* ── Layout ── */
-    main { max-width: 760px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
-
-    /* ── Section title ── */
-    .section-label {
-      font-size: 0.78rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--muted);
-      margin-bottom: 1.25rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    /* ── Entry card ── */
-    .entry {
-      background: var(--card);
-      border: 1px solid var(--border);
+    a { text-decoration: none; color: inherit; }
+    .card {
+      background: #fff;
       border-radius: 14px;
-      padding: 2rem;
-      margin-bottom: 1.75rem;
-      transition: box-shadow 0.2s;
+      padding: 1.25rem 1.25rem 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ebe8e3;
     }
-    .entry:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.07); }
-
-    .entry-header {
-      display: flex;
-      align-items: flex-start;
-      gap: 1rem;
-      margin-bottom: 1.25rem;
-    }
-    .entry-icon {
-      width: 46px; height: 46px;
-      background: var(--accent-light);
-      border-radius: 12px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.3rem;
-      flex-shrink: 0;
-    }
-    .entry-meta { flex: 1; }
-    .entry-meta .date { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.25rem; }
-    .entry-meta h2 { font-size: 1.15rem; line-height: 1.4; font-weight: normal; }
-
-    .book-tag {
-      display: inline-flex; align-items: center; gap: 0.3rem;
-      background: var(--tag-bg);
-      color: var(--tag-color);
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-size: 0.78rem;
-      margin-top: 0.5rem;
-    }
-
-    .entry-body { font-size: 0.97rem; color: #3a3a3a; }
-    .entry-body p { margin-bottom: 1rem; }
-    .entry-body p:last-child { margin-bottom: 0; }
-
-    .highlight {
-      background: linear-gradient(120deg, #fef9c3 0%, #fef3a0 100%);
-      padding: 1rem 1.25rem;
-      border-radius: 8px;
-      border-left: 3px solid #f0c414;
-      margin: 1.25rem 0;
-      font-style: italic;
-      color: #555;
-    }
-
-    .tag-row { margin-top: 1.25rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
-    .tag {
-      background: var(--accent-light);
-      color: var(--accent);
-      padding: 2px 10px;
-      border-radius: 20px;
-      font-size: 0.78rem;
-    }
-
-    /* ── Reading progress ── */
-    .progress-card {
-      background: linear-gradient(135deg, #f0edfc, #faf8ff);
-      border: 1px solid #d8d0f7;
-      border-radius: 14px;
-      padding: 1.5rem;
-      margin-bottom: 2rem;
-    }
-    .progress-card h3 { font-size: 0.9rem; color: var(--accent); margin-bottom: 1rem; }
-    .book-progress { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem; }
-    .book-progress .book-name { font-size: 0.9rem; flex: 1; }
-    .progress-bar { width: 120px; height: 6px; background: #ddd; border-radius: 3px; overflow: hidden; }
-    .progress-fill { height: 100%; background: var(--accent); border-radius: 3px; }
-    .progress-pct { font-size: 0.78rem; color: var(--muted); width: 32px; text-align: right; }
-
-    footer {
-      text-align: center;
-      padding: 2rem;
-      color: var(--muted);
-      font-size: 0.82rem;
-      border-top: 1px solid var(--border);
-    }
+    .card:active { background: #f5f3f0; }
+    .book { font-size: 0.75rem; color: #b07d3a; background: #fef3e2; padding: 2px 8px; border-radius: 20px; display: inline-block; margin-bottom: 0.5rem; }
+    .card h2 { font-size: 1rem; line-height: 1.5; font-weight: 600; margin-bottom: 0.4rem; }
+    .card p { font-size: 0.88rem; color: #777; line-height: 1.6; }
+    .meta { font-size: 0.75rem; color: #bbb; margin-top: 0.75rem; }
   </style>
 </head>
 <body>
+  <h1>🧠 脑科学笔记</h1>
 
-<header>
-  <span class="emoji">🧠</span>
-  <h1>脑科学阅读笔记</h1>
-  <p>读书 · 思考 · 记录 &nbsp;·&nbsp; Sylvia</p>
-</header>
-
-<div class="stats">
-  <span>已读 <strong>1</strong> 篇</span>
-  <span>书单 <strong>6</strong> 本</span>
-  <span>开始于 <strong>2026.03</strong></span>
-</div>
-
-<main>
-
-  <!-- Reading progress -->
-  <div class="progress-card">
-    <h3>📚 当前阅读进度</h3>
-    <div class="book-progress">
-      <div class="book-name">The Body Keeps the Score</div>
-      <div class="progress-bar"><div class="progress-fill" style="width:8%"></div></div>
-      <div class="progress-pct">8%</div>
+  <a href="posts/20260304-body-keeps-score.html">
+    <div class="card">
+      <span class="book">The Body Keeps the Score</span>
+      <h2>身体是有记忆的</h2>
+      <p>为什么"知道危险已经过去"，身体却还是不断重新经历那个时刻？</p>
+      <div class="meta">2026年3月4日</div>
     </div>
-    <div class="book-progress" style="opacity:0.4">
-      <div class="book-name">The Brain That Changes Itself</div>
-      <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
-      <div class="progress-pct">—</div>
+  </a>
+
+  <a href="posts/20260304-start.html">
+    <div class="card">
+      <span class="book">The Neuroscience of Self-Love</span>
+      <h2>为什么开始读脑科学？</h2>
+      <p>两周前读完了《The Neuroscience of Self-Love》，感觉打开了一扇门。</p>
+      <div class="meta">2026年3月4日</div>
     </div>
-    <div class="book-progress" style="opacity:0.4">
-      <div class="book-name">Mindsight</div>
-      <div class="progress-bar"><div class="progress-fill" style="width:0%"></div></div>
-      <div class="progress-pct">—</div>
-    </div>
-  </div>
-
-  <div class="section-label">最新笔记</div>
-
-  <!-- Entry 1 -->
-  <div class="entry">
-    <div class="entry-header">
-      <div class="entry-icon">📖</div>
-      <div class="entry-meta">
-        <div class="date">2026年3月4日 · 下午</div>
-        <h2>身体是有记忆的 —— 读《The Body Keeps the Score》第一章</h2>
-        <span class="book-tag">📘 The Body Keeps the Score</span>
-      </div>
-    </div>
-    <div class="entry-body">
-      <p>Van der Kolk 在第一章开篇就抛出了一个让我停下来反复想的问题：为什么有些人经历了创伤之后，明明已经"知道"危险过去了，身体却还是不断地重新经历那个时刻？</p>
-
-      <div class="highlight">
-        "The body keeps the score" —— 身体是诚实的，它记住了心理想要遗忘的一切。
-      </div>
-
-      <p>他描述了一个越战老兵的案例。这个人在战争结束多年后，每当听到直升机的声音，心跳加速、手心冒汗、全身紧绷的反应就会自动触发——不是因为他"想起来了"，而是因为他的<strong>神经系统根本没有意识到战争已经结束</strong>。</p>
-
-      <p>这让我想到一个更日常的问题：我们身体里有多少类似的"旧程序"在悄悄运行？不一定是创伤，可能只是某些习惯性的紧张、某些触发焦虑的场景——这些反应往往比我们的理性判断快得多，因为它们走的是杏仁核，不是前额叶。</p>
-
-      <p>Van der Kolk 的核心观点是：<strong>要真正愈合，不能只靠"谈话"和"讲道理"，还需要让身体重新感受到安全</strong>。这和我之前读的《The Neuroscience of Self-Love》里讲的自我关怀很呼应——自我认知不是纯粹的脑力活动，它是有体感的。</p>
-    </div>
-    <div class="tag-row">
-      <span class="tag">神经科学</span>
-      <span class="tag">创伤</span>
-      <span class="tag">杏仁核</span>
-      <span class="tag">身心连接</span>
-    </div>
-  </div>
-
-  <!-- Entry 0: opening -->
-  <div class="entry">
-    <div class="entry-header">
-      <div class="entry-icon">🌱</div>
-      <div class="entry-meta">
-        <div class="date">2026年3月4日 · 开始</div>
-        <h2>为什么开始读脑科学？</h2>
-        <span class="book-tag">📘 The Neuroscience of Self-Love</span>
-      </div>
-    </div>
-    <div class="entry-body">
-      <p>两周前读完了《The Neuroscience of Self-Love》，感觉打开了一扇门。大脑怎么影响我们对自己的看法？情绪的底层机制是什么？为什么"知道道理"和"真正改变"之间总是差一截？</p>
-      <p>想系统地读下去。书单从经典开始，慢慢来。</p>
-    </div>
-    <div class="tag-row">
-      <span class="tag">自我认知</span>
-      <span class="tag">开始</span>
-    </div>
-  </div>
-
-</main>
-
-<footer>持续更新中 · Made with curiosity 🧠</footer>
+  </a>
 
 </body>
 </html>
